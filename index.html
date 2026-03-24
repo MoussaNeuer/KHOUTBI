@@ -1,0 +1,2166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KHOUT BI 🕸️ - No Excuses. Just Work.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+
+/* ============================================================
+   RESET & VARIABLES
+   ============================================================ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --noir: #000000;
+  --rouge: #D92525;
+  --rouge-vif: #ff0000;
+  --blanc: #ffffff;
+  --gris-fonce: #0f0f0f;
+  --gris-moyen: #1a1a1a;
+  --gris-card: #141414;
+  --gris-border: #2a2a2a;
+  --transition: all 0.3s ease;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--noir);
+  color: var(--blanc);
+  font-family: 'Barlow', sans-serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ============================================================
+   SPIDER WEB SVG BACKGROUND PATTERN
+   ============================================================ */
+.web-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cg stroke='%23ffffff' stroke-width='0.8' fill='none'%3E%3Ccircle cx='200' cy='200' r='20'/%3E%3Ccircle cx='200' cy='200' r='50'/%3E%3Ccircle cx='200' cy='200' r='90'/%3E%3Ccircle cx='200' cy='200' r='140'/%3E%3Ccircle cx='200' cy='200' r='195'/%3E%3Cline x1='200' y1='5' x2='200' y2='395'/%3E%3Cline x1='5' y1='200' x2='395' y2='200'/%3E%3Cline x1='60' y1='60' x2='340' y2='340'/%3E%3Cline x1='340' y1='60' x2='60' y2='340'/%3E%3Cline x1='200' y1='5' x2='395' y2='200'/%3E%3Cline x1='395' y1='200' x2='200' y2='395'/%3E%3Cline x1='200' y1='395' x2='5' y2='200'/%3E%3Cline x1='5' y1='200' x2='200' y2='5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 400px 400px;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--noir); }
+::-webkit-scrollbar-thumb { background: var(--rouge); border-radius: 2px; }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 60px;
+  height: 70px;
+  background: rgba(0,0,0,0.95);
+  border-bottom: 1px solid var(--gris-border);
+  backdrop-filter: blur(10px);
+  transition: var(--transition);
+}
+
+.navbar.scrolled {
+  background: rgba(0,0,0,0.99);
+  height: 60px;
+  box-shadow: 0 4px 30px rgba(217,37,37,0.15);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 3px;
+  color: var(--blanc);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-logo span { color: var(--rouge); }
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 2px;
+  background: var(--rouge);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover { color: var(--blanc); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 25px; height: 2px;
+  background: var(--blanc);
+  transition: var(--transition);
+}
+
+/* Mobile menu */
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 70px; left: 0; right: 0;
+  background: rgba(0,0,0,0.98);
+  border-bottom: 1px solid var(--gris-border);
+  z-index: 999;
+  padding: 20px 0;
+}
+
+.nav-mobile.open { display: block; }
+
+.nav-mobile a {
+  display: block;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 40px;
+  border-bottom: 1px solid var(--gris-border);
+  transition: var(--transition);
+}
+
+.nav-mobile a:hover { color: var(--rouge); padding-left: 50px; }
+
+/* ============================================================
+   HERO SECTION
+   ============================================================ */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a0000 50%, #0a0a0a 100%);
+  z-index: 1;
+}
+
+/* Animated grid lines */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image:
+    linear-gradient(rgba(217,37,37,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217,37,37,0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Red spotlight */
+.hero-spotlight {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(217,37,37,0.15) 0%, transparent 70%);
+  z-index: 3;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+  50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+}
+
+/* Spider web corner */
+.hero-web {
+  position: absolute;
+  top: 0; right: 0;
+  width: 350px; height: 350px;
+  opacity: 0.12;
+  z-index: 3;
+}
+
+.hero-web-bl {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 250px; height: 250px;
+  opacity: 0.08;
+  z-index: 3;
+  transform: rotate(180deg);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 20px;
+  max-width: 900px;
+}
+
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: var(--rouge);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.3s;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 110px;
+  line-height: 0.9;
+  color: var(--blanc);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.5s;
+}
+
+.hero-title .red { color: var(--rouge); }
+
+.hero-subtitle {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  margin-bottom: 50px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.7s;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--rouge);
+  color: var(--blanc);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 18px 50px;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%);
+  transition: var(--transition);
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.9s;
+}
+
+.hero-cta:hover {
+  background: #ff1a1a;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(217,37,37,0.4);
+}
+
+.hero-stats {
+  position: absolute;
+  bottom: 60px;
+  left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  z-index: 10;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 1.2s;
+}
+
+.hero-stat-item { text-align: center; }
+
+.hero-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  color: var(--rouge);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards 1.5s;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, var(--rouge));
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+.scroll-text {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.3);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+/* ============================================================
+   SECTION COMMON
+   ============================================================ */
+section { position: relative; z-index: 1; }
+
+.section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: var(--rouge);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--blanc);
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+
+.section-desc {
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.55);
+  max-width: 600px;
+}
+
+.red-line {
+  width: 60px;
+  height: 3px;
+  background: var(--rouge);
+  margin-bottom: 30px;
+}
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+.about {
+  padding: 120px 0;
+  background: var(--gris-fonce);
+  overflow: hidden;
+}
+
+.about-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+}
+
+.about-visual {
+  position: relative;
+}
+
+.about-box-main {
+  background: var(--gris-card);
+  border: 1px solid var(--gris-border);
+  padding: 60px;
+  position: relative;
+}
+
+.about-box-main::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--rouge);
+}
+
+.about-box-main::after {
+  content: '"NO EXCUSES"';
+  position: absolute;
+  bottom: 20px; right: 25px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  color: rgba(255,255,255,0.03);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.about-big-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 140px;
+  line-height: 1;
+  color: var(--rouge);
+  opacity: 0.15;
+  position: absolute;
+  top: -30px;
+  right: -20px;
+}
+
+.about-icon-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.about-icon-item {
+  background: rgba(217,37,37,0.06);
+  border: 1px solid rgba(217,37,37,0.15);
+  padding: 20px;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.about-icon-item:hover {
+  background: rgba(217,37,37,0.12);
+  border-color: var(--rouge);
+  transform: translateY(-4px);
+}
+
+.about-icon-item i {
+  font-size: 24px;
+  color: var(--rouge);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.about-icon-item p {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+
+.values-list {
+  list-style: none;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.value-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  border: 1px solid var(--gris-border);
+  background: var(--gris-card);
+  transition: var(--transition);
+}
+
+.value-item:hover {
+  border-color: var(--rouge);
+  transform: translateX(8px);
+}
+
+.value-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  color: rgba(217,37,37,0.3);
+  line-height: 1;
+  min-width: 40px;
+}
+
+.value-text strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.value-text span {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+}
+
+/* ============================================================
+   TEAM SECTION
+   ============================================================ */
+.team {
+  padding: 120px 0;
+  background: var(--noir);
+}
+
+.team-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+}
+
+.team-card {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: var(--gris-card);
+  cursor: pointer;
+}
+
+.team-card-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  filter: grayscale(40%);
+}
+
+/* Placeholder gradient for team cards */
+.team-card-placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  transition: transform 0.5s ease;
+}
+
+.team-card:nth-child(1) .team-card-placeholder { background: linear-gradient(135deg, #1a0505 0%, #2d0808 100%); }
+.team-card:nth-child(2) .team-card-placeholder { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); }
+.team-card:nth-child(3) .team-card-placeholder { background: linear-gradient(135deg, #150303 0%, #250505 100%); }
+.team-card:nth-child(4) .team-card-placeholder { background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%); }
+
+.team-card-placeholder i {
+  font-size: 64px;
+  color: rgba(255,255,255,0.1);
+}
+
+.team-card:hover .team-card-placeholder { transform: scale(1.05); }
+.team-card:hover .team-card-img { transform: scale(1.05); filter: grayscale(0%); }
+
+.team-card-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%);
+  padding: 40px 24px 24px;
+  transform: translateY(0);
+  transition: var(--transition);
+}
+
+.team-card:hover .team-card-overlay { background: linear-gradient(to top, rgba(217,37,37,0.4) 0%, transparent 100%); }
+
+.team-card-role {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--rouge);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.team-card-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 2px;
+  color: var(--blanc);
+}
+
+.team-card-tag {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 4px;
+}
+
+/* Red diagonal badge for leader */
+.team-leader-badge {
+  position: absolute;
+  top: 16px; right: -30px;
+  background: var(--rouge);
+  color: var(--blanc);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 40px;
+  transform: rotate(45deg);
+}
+
+/* ============================================================
+   PROGRAMME SECTION
+   ============================================================ */
+.programme {
+  padding: 120px 0;
+  background: var(--gris-fonce);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Angled background accent */
+.programme::before {
+  content: '';
+  position: absolute;
+  top: 0; right: -100px;
+  width: 500px; height: 100%;
+  background: linear-gradient(135deg, transparent 30%, rgba(217,37,37,0.04) 100%);
+  transform: skewX(-5deg);
+  pointer-events: none;
+}
+
+.programme-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.programme-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 40px;
+}
+
+.prog-feature {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--gris-border);
+  transition: var(--transition);
+  cursor: default;
+}
+
+.prog-feature:hover { padding-left: 16px; }
+
+.prog-feature-icon {
+  width: 50px; height: 50px;
+  min-width: 50px;
+  background: rgba(217,37,37,0.1);
+  border: 1px solid rgba(217,37,37,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--rouge);
+  transition: var(--transition);
+}
+
+.prog-feature:hover .prog-feature-icon {
+  background: var(--rouge);
+  color: var(--blanc);
+}
+
+.prog-feature-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.prog-feature-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+}
+
+.programme-visual {
+  position: relative;
+}
+
+.prog-card-main {
+  background: var(--gris-card);
+  border: 1px solid var(--gris-border);
+  padding: 50px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.prog-card-main::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--rouge), transparent);
+}
+
+.prog-tag {
+  display: inline-block;
+  background: rgba(217,37,37,0.15);
+  border: 1px solid var(--rouge);
+  color: var(--rouge);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  margin-bottom: 24px;
+}
+
+.prog-card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.prog-focus-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 36px;
+}
+
+.prog-focus-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+}
+
+.prog-focus-list li::before {
+  content: '';
+  width: 6px; height: 6px;
+  min-width: 6px;
+  background: var(--rouge);
+  transform: rotate(45deg);
+}
+
+.btn-red {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--rouge);
+  color: var(--blanc);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
+  transition: var(--transition);
+}
+
+.btn-red:hover {
+  background: #ff1a1a;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(217,37,37,0.4);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--blanc);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  border: 1px solid var(--gris-border);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-outline:hover { border-color: var(--rouge); color: var(--rouge); }
+
+/* ============================================================
+   GALERIE SECTION
+   ============================================================ */
+.galerie {
+  padding: 120px 0;
+  background: var(--noir);
+}
+
+.galerie-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+.galerie-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.galerie-header .red-line {
+  margin: 0 auto 30px;
+}
+
+.galerie-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 250px 250px;
+  gap: 3px;
+}
+
+.galerie-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.galerie-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+.galerie-item:nth-child(5) { grid-column: span 2; grid-row: span 1; }
+
+.galerie-placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  transition: transform 0.5s ease;
+}
+
+.galerie-item:nth-child(1) .galerie-placeholder { background: linear-gradient(135deg, #1a0505, #350a0a); }
+.galerie-item:nth-child(2) .galerie-placeholder { background: linear-gradient(135deg, #0f0f0f, #1a1a1a); }
+.galerie-item:nth-child(3) .galerie-placeholder { background: linear-gradient(135deg, #120202, #200404); }
+.galerie-item:nth-child(4) .galerie-placeholder { background: linear-gradient(135deg, #111, #1c1c1c); }
+.galerie-item:nth-child(5) .galerie-placeholder { background: linear-gradient(135deg, #180303, #2a0505); }
+.galerie-item:nth-child(6) .galerie-placeholder { background: linear-gradient(135deg, #0d0d0d, #181818); }
+.galerie-item:nth-child(7) .galerie-placeholder { background: linear-gradient(135deg, #150202, #220404); }
+.galerie-item:nth-child(8) .galerie-placeholder { background: linear-gradient(135deg, #0f0f0f, #1a1a1a); }
+
+.galerie-item:hover .galerie-placeholder { transform: scale(1.08); }
+
+.galerie-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(217,37,37,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.galerie-overlay i {
+  font-size: 28px;
+  color: var(--blanc);
+  opacity: 0;
+  transform: scale(0.5);
+  transition: var(--transition);
+}
+
+.galerie-item:hover .galerie-overlay { background: rgba(217,37,37,0.3); }
+.galerie-item:hover .galerie-overlay i { opacity: 1; transform: scale(1); }
+
+/* Galerie labels */
+.galerie-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  padding: 30px 20px 16px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: var(--transition);
+}
+
+.galerie-item:hover .galerie-label { opacity: 1; transform: translateY(0); }
+
+.galerie-label span {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.8);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   REJOINDRE SECTION
+   ============================================================ */
+.rejoindre {
+  padding: 120px 0;
+  background: var(--rouge);
+  position: relative;
+  overflow: hidden;
+}
+
+.rejoindre::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.rejoindre::after {
+  content: 'KHOUT BI';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 240px;
+  color: rgba(0,0,0,0.08);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 10px;
+}
+
+.rejoindre-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 60px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.rejoindre-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  line-height: 1;
+  color: var(--blanc);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+.rejoindre-desc {
+  font-size: 17px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.7;
+  margin-bottom: 50px;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,0,0,0.25);
+  color: var(--blanc);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 16px 30px;
+  border: 2px solid rgba(255,255,255,0.3);
+  transition: var(--transition);
+}
+
+.social-btn:hover {
+  background: rgba(0,0,0,0.5);
+  border-color: var(--blanc);
+  transform: translateY(-4px);
+}
+
+.social-btn i { font-size: 18px; }
+
+/* ============================================================
+   LOCALISATION SECTION
+   ============================================================ */
+.localisation {
+  padding: 120px 0 0;
+  background: var(--gris-fonce);
+}
+
+.localisation-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.map-container {
+  position: relative;
+  height: 420px;
+  border: 1px solid var(--gris-border);
+  overflow: hidden;
+}
+
+.map-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--rouge);
+  z-index: 1;
+}
+
+.map-container iframe {
+  width: 100%; height: 100%;
+  filter: grayscale(80%) invert(90%) contrast(85%);
+  border: none;
+}
+
+.location-details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 36px;
+}
+
+.location-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid var(--gris-border);
+  background: var(--gris-card);
+  transition: var(--transition);
+}
+
+.location-item:hover { border-color: var(--rouge); }
+
+.location-item i {
+  font-size: 20px;
+  color: var(--rouge);
+  margin-top: 2px;
+  min-width: 20px;
+}
+
+.location-item strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.location-item span {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
+.contact {
+  padding: 120px 0;
+  background: var(--noir);
+}
+
+.contact-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 80px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group { display: flex; flex-direction: column; gap: 8px; }
+
+.form-group label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.form-group input,
+.form-group textarea {
+  background: var(--gris-card);
+  border: 1px solid var(--gris-border);
+  color: var(--blanc);
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  padding: 16px 20px;
+  outline: none;
+  transition: var(--transition);
+  resize: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--rouge);
+  background: #0f0f0f;
+}
+
+.form-group textarea { height: 140px; }
+
+.form-submit {
+  margin-top: 8px;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background: var(--gris-fonce);
+  border-top: 1px solid var(--gris-border);
+  padding: 60px 60px 40px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid var(--gris-border);
+  margin-bottom: 40px;
+}
+
+.footer-brand-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 40px;
+  letter-spacing: 4px;
+  color: var(--blanc);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-brand-name span { color: var(--rouge); }
+
+.footer-desc {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.4);
+  max-width: 280px;
+  margin-bottom: 24px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-social a {
+  width: 40px; height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gris-border);
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.footer-social a:hover {
+  border-color: var(--rouge);
+  color: var(--rouge);
+  transform: translateY(-3px);
+}
+
+.footer-nav-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--rouge);
+  margin-bottom: 24px;
+}
+
+.footer-nav-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-nav-links a {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  text-decoration: none;
+  transition: var(--transition);
+  letter-spacing: 0.5px;
+}
+
+.footer-nav-links a:hover { color: var(--blanc); padding-left: 8px; }
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 1px;
+}
+
+.footer-copy span { color: var(--rouge); }
+
+.footer-slogan {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.15);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ============================================================
+   MARQUEE STRIP
+   ============================================================ */
+.marquee-strip {
+  background: var(--rouge);
+  padding: 14px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  z-index: 2;
+}
+
+.marquee-track {
+  display: inline-flex;
+  animation: marquee 18s linear infinite;
+  gap: 0;
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 30px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.9);
+}
+
+.marquee-dot {
+  width: 6px; height: 6px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   DIVIDER
+   ============================================================ */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gris-border), transparent);
+  margin: 0 60px;
+}
+
+/* Success message */
+.form-success {
+  display: none;
+  background: rgba(217,37,37,0.1);
+  border: 1px solid var(--rouge);
+  color: var(--rouge);
+  padding: 16px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-top: 10px;
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+@media (max-width: 1024px) {
+  .navbar { padding: 0 30px; }
+  .nav-links { gap: 20px; }
+
+  .about-inner,
+  .programme-inner,
+  .localisation-inner,
+  .contact-inner { grid-template-columns: 1fr; gap: 50px; padding: 0 30px; }
+
+  .team-inner,
+  .galerie-inner { padding: 0 30px; }
+
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .galerie-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; }
+  .galerie-item:nth-child(1),
+  .galerie-item:nth-child(5) { grid-column: span 1; }
+
+  .hero-title { font-size: 80px; }
+  .section-title { font-size: 56px; }
+  .hero-stats { gap: 40px; }
+
+  .footer-inner { grid-template-columns: 1fr 1fr; padding: 0 0 50px; }
+
+  .rejoindre-inner { padding: 0 30px; }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .navbar { padding: 0 20px; }
+
+  .hero-title { font-size: 56px; }
+  .hero-subtitle { font-size: 15px; letter-spacing: 4px; }
+  .hero-stats { gap: 24px; }
+  .hero-stat-num { font-size: 36px; }
+  .scroll-indicator { display: none; }
+
+  .about-inner,
+  .programme-inner,
+  .localisation-inner,
+  .contact-inner { padding: 0 20px; }
+
+  .team-inner,
+  .galerie-inner { padding: 0 20px; }
+  .team-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .galerie-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+  .galerie-item:nth-child(1),
+  .galerie-item:nth-child(5) { grid-column: span 1; }
+  .galerie-item { height: 180px; }
+
+  .section-title { font-size: 44px; }
+  .rejoindre-title { font-size: 52px; }
+  .rejoindre-inner { padding: 0 20px; }
+
+  .social-buttons { flex-direction: column; align-items: center; }
+  .social-btn { width: 100%; max-width: 300px; justify-content: center; }
+
+  .footer { padding: 40px 20px 30px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 30px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+
+  .about { padding: 80px 0; }
+  .team, .programme, .galerie, .rejoindre, .contact { padding: 80px 0; }
+  .localisation { padding: 80px 0 0; }
+  .localisation-inner { padding: 0 20px 60px; }
+
+  .hero-stats { display: none; }
+
+  .about-big-num { display: none; }
+
+  .map-container { height: 280px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Spider Web Background -->
+<div class="web-bg"></div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="navbar" id="navbar">
+  <a href="#accueil" class="nav-logo">KHOUT<span>BI</span> 🕸️</a>
+  <ul class="nav-links">
+    <li><a href="#accueil">Accueil</a></li>
+    <li><a href="#apropos">À Propos</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#programme">Programme</a></li>
+    <li><a href="#galerie">Galerie</a></li>
+    <li><a href="#rejoindre">Rejoindre</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-toggle" id="navToggle" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="nav-mobile" id="navMobile">
+  <a href="#accueil" onclick="closeMenu()">Accueil</a>
+  <a href="#apropos" onclick="closeMenu()">À Propos</a>
+  <a href="#team" onclick="closeMenu()">Team</a>
+  <a href="#programme" onclick="closeMenu()">Programme</a>
+  <a href="#galerie" onclick="closeMenu()">Galerie</a>
+  <a href="#rejoindre" onclick="closeMenu()">Rejoindre</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- ============================================================
+     HERO SECTION
+     ============================================================ -->
+<section class="hero" id="accueil">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-spotlight"></div>
+
+  <!-- Spider web corners (SVG inline) -->
+  <svg class="hero-web" viewBox="0 0 350 350" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff" stroke-width="0.8">
+    <circle cx="0" cy="0" r="60"/><circle cx="0" cy="0" r="110"/><circle cx="0" cy="0" r="170"/><circle cx="0" cy="0" r="235"/><circle cx="0" cy="0" r="310"/>
+    <line x1="0" y1="0" x2="350" y2="0"/><line x1="0" y1="0" x2="0" y2="350"/>
+    <line x1="0" y1="0" x2="247" y2="247"/><line x1="0" y1="0" x2="350" y2="144"/>
+    <line x1="0" y1="0" x2="144" y2="350"/><line x1="0" y1="0" x2="330" y2="70"/>
+    <line x1="0" y1="0" x2="70" y2="330"/>
+  </svg>
+
+  <svg class="hero-web-bl" viewBox="0 0 350 350" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ff0000" stroke-width="0.6">
+    <circle cx="0" cy="0" r="60"/><circle cx="0" cy="0" r="110"/><circle cx="0" cy="0" r="170"/><circle cx="0" cy="0" r="235"/>
+    <line x1="0" y1="0" x2="350" y2="0"/><line x1="0" y1="0" x2="0" y2="350"/>
+    <line x1="0" y1="0" x2="247" y2="247"/><line x1="0" y1="0" x2="350" y2="144"/>
+    <line x1="0" y1="0" x2="144" y2="350"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">🕸️ Dakar, Sénégal · Fitness Community</p>
+    <h1 class="hero-title">REJOINS<br>LE <span class="red">MOUVEMENT</span><br>KHOUT BI</h1>
+    <p class="hero-subtitle">Discipline · Hardwork · No Excuses</p>
+    <a href="#rejoindre" class="hero-cta">
+      <i class="fas fa-bolt"></i>
+      Rejoindre Maintenant
+    </a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">100+</div>
+      <div class="hero-stat-label">Membres actifs</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">3+</div>
+      <div class="hero-stat-label">Années d'expérience</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">∞</div>
+      <div class="hero-stat-label">Motivation</div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- Marquee Strip -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">NO EXCUSES <span class="marquee-dot"></span></span>
+    <span class="marquee-item">JUST WORK <span class="marquee-dot"></span></span>
+    <span class="marquee-item">DISCIPLINE <span class="marquee-dot"></span></span>
+    <span class="marquee-item">HARDWORK <span class="marquee-dot"></span></span>
+    <span class="marquee-item">DÉPASSEMENT <span class="marquee-dot"></span></span>
+    <span class="marquee-item">KHOUT BI 🕸️ <span class="marquee-dot"></span></span>
+    <span class="marquee-item">NO EXCUSES <span class="marquee-dot"></span></span>
+    <span class="marquee-item">JUST WORK <span class="marquee-dot"></span></span>
+    <span class="marquee-item">DISCIPLINE <span class="marquee-dot"></span></span>
+    <span class="marquee-item">HARDWORK <span class="marquee-dot"></span></span>
+    <span class="marquee-item">DÉPASSEMENT <span class="marquee-dot"></span></span>
+    <span class="marquee-item">KHOUT BI 🕸️ <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- ============================================================
+     À PROPOS SECTION
+     ============================================================ -->
+<section class="about" id="apropos">
+  <div class="about-inner">
+
+    <!-- Left visual -->
+    <div class="about-visual reveal">
+      <div class="about-box-main">
+        <div class="about-big-num">KB</div>
+        <p class="section-label">Notre mission</p>
+        <h2 class="section-title">Forger<br>La <span style="color:var(--rouge)">Bête</span></h2>
+        <p class="section-desc">KHOUT BI n'est pas une salle de sport. C'est un mouvement. Une communauté d'individus qui refusent la médiocrité et embrassent la souffrance comme outil de transformation.</p>
+        <div class="about-icon-grid">
+          <div class="about-icon-item">
+            <i class="fas fa-dumbbell"></i>
+            <p>Musculation</p>
+          </div>
+          <div class="about-icon-item">
+            <i class="fas fa-users"></i>
+            <p>Communauté</p>
+          </div>
+          <div class="about-icon-item">
+            <i class="fas fa-fire"></i>
+            <p>Intensité</p>
+          </div>
+          <div class="about-icon-item">
+            <i class="fas fa-tshirt"></i>
+            <p>Future Marque</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right values -->
+    <div class="reveal reveal-delay-2">
+      <p class="section-label">Nos Valeurs</p>
+      <div class="red-line"></div>
+      <h2 class="section-title">L'ADN<br><span style="color:var(--rouge)">KHOUT BI</span></h2>
+      <p class="section-desc">Chaque membre partage les mêmes valeurs fondamentales. Ce sont elles qui définissent notre identité et forgent notre communauté.</p>
+      <ul class="values-list">
+        <li class="value-item">
+          <span class="value-num">01</span>
+          <div class="value-text">
+            <strong>Discipline</strong>
+            <span>Se lever chaque matin avec une intention claire et une exécution sans faille.</span>
+          </div>
+        </li>
+        <li class="value-item">
+          <span class="value-num">02</span>
+          <div class="value-text">
+            <strong>Travail Acharné</strong>
+            <span>La sueur est la seule monnaie qui ne perd jamais sa valeur.</span>
+          </div>
+        </li>
+        <li class="value-item">
+          <span class="value-num">03</span>
+          <div class="value-text">
+            <strong>Dépassement de Soi</strong>
+            <span>La limite n'est pas dans le muscle. Elle est dans l'esprit. On la détruit.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     TEAM SECTION
+     ============================================================ -->
+<section class="team" id="team">
+  <div class="team-inner">
+    <div class="team-header">
+      <div class="reveal">
+        <p class="section-label">Notre équipe</p>
+        <div class="red-line"></div>
+        <h2 class="section-title">La <span style="color:var(--rouge)">Team</span><br>KHOUT BI</h2>
+      </div>
+      <p class="section-desc reveal reveal-delay-2" style="max-width:300px; text-align:right;">Des guerriers façonnés par la discipline et liés par des valeurs communes.</p>
+    </div>
+
+    <div class="team-grid">
+
+      <!-- Card 1 - Leader -->
+      <div class="team-card reveal">
+        <div class="team-leader-badge">Leader</div>
+        <div class="team-card-placeholder">
+          <i class="fas fa-crown"></i>
+        </div>
+        <div class="team-card-overlay">
+          <div class="team-card-role">Fondateur · Leader</div>
+          <div class="team-card-name">Chef KHOUT BI</div>
+          <div class="team-card-tag">Prise de masse · Coaching</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="team-card reveal reveal-delay-1">
+        <div class="team-card-placeholder">
+          <i class="fas fa-dumbbell"></i>
+        </div>
+        <div class="team-card-overlay">
+          <div class="team-card-role">Membre Senior</div>
+          <div class="team-card-name">Membre 02</div>
+          <div class="team-card-tag">Dos · Épaules · Bras</div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="team-card reveal reveal-delay-2">
+        <div class="team-card-placeholder">
+          <i class="fas fa-fire"></i>
+        </div>
+        <div class="team-card-overlay">
+          <div class="team-card-role">Membre</div>
+          <div class="team-card-name">Membre 03</div>
+          <div class="team-card-tag">Force · Cardio</div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="team-card reveal reveal-delay-3">
+        <div class="team-card-placeholder">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <div class="team-card-overlay">
+          <div class="team-card-role">Membre</div>
+          <div class="team-card-name">Membre 04</div>
+          <div class="team-card-tag">Définition · Volume</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROGRAMME SECTION
+     ============================================================ -->
+<section class="programme" id="programme">
+  <div class="programme-inner">
+
+    <!-- Left content -->
+    <div class="reveal">
+      <p class="section-label">Notre méthode</p>
+      <div class="red-line"></div>
+      <h2 class="section-title">Le <span style="color:var(--rouge)">Programme</span><br>KHOUT BI</h2>
+      <p class="section-desc">Une méthodologie de prise de masse scientifique adaptée à la morphologie des athlètes Sénégalais. Chaque séance est une bataille.</p>
+
+      <div class="programme-features">
+        <div class="prog-feature">
+          <div class="prog-feature-icon"><i class="fas fa-layer-group"></i></div>
+          <div>
+            <div class="prog-feature-title">Prise de Masse Stratégique</div>
+            <div class="prog-feature-desc">Protocoles de surcharge progressive pour un volume musculaire maximal.</div>
+          </div>
+        </div>
+        <div class="prog-feature">
+          <div class="prog-feature-icon"><i class="fas fa-back-forward"></i></div>
+          <div>
+            <div class="prog-feature-title">Focus Dos &amp; Épaules</div>
+            <div class="prog-feature-desc">Architecture du haut du corps pour une silhouette puissante et imposante.</div>
+          </div>
+        </div>
+        <div class="prog-feature">
+          <div class="prog-feature-icon"><i class="fas fa-circle-nodes"></i></div>
+          <div>
+            <div class="prog-feature-title">Développement des Bras</div>
+            <div class="prog-feature-desc">Biceps, triceps et avant-bras : le volume qui impose le respect.</div>
+          </div>
+        </div>
+        <div class="prog-feature">
+          <div class="prog-feature-icon"><i class="fas fa-utensils"></i></div>
+          <div>
+            <div class="prog-feature-title">Nutrition &amp; Récupération</div>
+            <div class="prog-feature-desc">Protocoles alimentaires adaptés pour maximiser la récupération musculaire.</div>
+          </div>
+        </div>
+        <div class="prog-feature">
+          <div class="prog-feature-icon"><i class="fas fa-chart-line"></i></div>
+          <div>
+            <div class="prog-feature-title">Suivi &amp; Progression</div>
+            <div class="prog-feature-desc">Analyse régulière des performances pour ajuster le programme et garantir les résultats.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right card -->
+    <div class="reveal reveal-delay-2">
+      <div class="prog-card-main">
+        <div class="prog-tag">Programme Officiel</div>
+        <div class="prog-card-title">KHOUT BI<br>MASS<br>BUILDER</div>
+        <ul class="prog-focus-list">
+          <li>Programme 5 jours / semaine</li>
+          <li>Séances de 60 à 90 minutes</li>
+          <li>Focus : Dos — Épaules — Bras — Jambes</li>
+          <li>Suivi personnalisé par la team</li>
+          <li>Accès au groupe WhatsApp privé</li>
+          <li>Mises à jour mensuelles du plan</li>
+        </ul>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="#rejoindre" class="btn-red">
+            <i class="fas fa-bolt"></i>
+            Voir Plus
+          </a>
+          <a href="#contact" class="btn-outline">
+            <i class="fas fa-envelope"></i>
+            Nous contacter
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     GALERIE SECTION
+     ============================================================ -->
+<section class="galerie" id="galerie">
+  <div class="galerie-inner">
+    <div class="galerie-header reveal">
+      <p class="section-label">Nos résultats</p>
+      <div class="red-line"></div>
+      <h2 class="section-title">La <span style="color:var(--rouge)">Galerie</span><br>KHOUT BI</h2>
+      <p class="section-desc" style="margin:0 auto;">Avant/Après, intensité en salle, moments de la team. La preuve par l'image.</p>
+    </div>
+
+    <div class="galerie-grid reveal">
+
+      <div class="galerie-item">
+        <div class="galerie-placeholder" style="font-size:60px;">💪</div>
+        <div class="galerie-overlay"><i class="fas fa-expand"></i></div>
+        <div class="galerie-label"><span>Avant / Après</span></div>
+      </div>
+
+      <div class="galerie-item">
+        <div class="galerie-placeholder" style="font-size:50px;">🏋️</div>
+        <div class="galerie-overlay"><i class="fas fa-expand"></i></div>
+        <div class="galerie-label"><span>Séance Dos</span></div>
+      </div>
+
+      <div class="galerie-item">
+        <div class="galerie-placeholder" style="font-size:50px;">🔥</div>
+        <div class="galerie-overlay"><i class="fas fa-expand"></i></div>
+        <div class="galerie-label"><span>Intensité</span></div>
+      </div>
+
+      <div class="galerie-item">
+        <div class="galerie-placeholder" style="font-size:50px;">⚡</div>
+        <div class="galerie-overlay"><i class="fas fa-expand"></i></div>
+        <div class="galerie-label"><span>Bras Day</span></div>
+      </div>
+
+      <div class="galerie-item">
+        <div class="galerie-placeholder" style="font-size:60px;">🕸️</div>
+        <div class="galerie-overlay"><i class="fas fa-expand"></i></div>
+        <div class="galerie-label"><span>Team KHOUT BI</span></div>
+      </div>
+
+      <div class="galerie-item">
+        <div class="galerie-placeholder" style="font-size:50px;">🎯</div>
+        <div class="galerie-overlay"><i class="fas fa-expand"></i></div>
+        <div class="galerie-label"><span>Épaules</span></div>
+      </div>
+
+      <div class="galerie-item">
+        <div class="galerie-placeholder" style="font-size:50px;">💥</div>
+        <div class="galerie-overlay"><i class="fas fa-expand"></i></div>
+        <div class="galerie-label"><span>Transformation</span></div>
+      </div>
+
+      <div class="galerie-item">
+        <div class="galerie-placeholder" style="font-size:50px;">🏆</div>
+        <div class="galerie-overlay"><i class="fas fa-expand"></i></div>
+        <div class="galerie-label"><span>Résultats</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     REJOINDRE SECTION
+     ============================================================ -->
+<section class="rejoindre" id="rejoindre">
+  <div class="rejoindre-inner">
+    <div class="reveal">
+      <h2 class="rejoindre-title">PRÊT À<br>REJOINDRE<br>LA TEAM?</h2>
+      <p class="rejoindre-desc">Arrête de regarder les autres progresser. Le moment c'est maintenant. Rejoins la communauté KHOUT BI sur nos réseaux et commence ta transformation aujourd'hui.</p>
+      <div class="social-buttons">
+        <a href="#" class="social-btn" target="_blank" rel="noopener">
+          <i class="fab fa-snapchat"></i>
+          Snapchat
+        </a>
+        <a href="#" class="social-btn" target="_blank" rel="noopener">
+          <i class="fab fa-instagram"></i>
+          Instagram
+        </a>
+        <a href="#" class="social-btn" target="_blank" rel="noopener">
+          <i class="fab fa-whatsapp"></i>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     LOCALISATION SECTION
+     ============================================================ -->
+<section class="localisation" id="localisation">
+  <div class="localisation-inner">
+
+    <div class="reveal">
+      <p class="section-label">Où nous trouver</p>
+      <div class="red-line"></div>
+      <h2 class="section-title">Notre<br><span style="color:var(--rouge)">Zone</span></h2>
+      <p class="section-desc">Basés à Keur Massar, Dakar, au cœur du Sénégal. Rejoins-nous en salle ou en ligne.</p>
+
+      <div class="location-details">
+        <div class="location-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <div>
+            <strong>Localisation</strong>
+            <span>Keur Massar, Dakar, Sénégal</span>
+          </div>
+        </div>
+        <div class="location-item">
+          <i class="fas fa-clock"></i>
+          <div>
+            <strong>Horaires d'entraînement</strong>
+            <span>Lundi· 17h00 — 19h00</span><br>
+            <span>Mardi· 17h00 — 19h00</span><br>
+            <span>Jeudi· 17h00 — 19h00</span><br>
+            <span>Vendredi· 17h00 — 19h00</span><br>
+            <span>Samedi· 19h00 — 21h00</span><br>
+          </div>
+        </div>
+        <div class="location-item">
+          <i class="fas fa-phone"></i>
+          <div>
+            <strong>Contact direct</strong>
+            <span>Via WhatsApp ou Instagram</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-container reveal reveal-delay-2">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3857.8686269223736!2d-17.32202966385929!3d14.776428885790402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xec10b81b51bd43b%3A0xbc92ca479ed01e65!2sSALLE%20DE%20SPORT%20LES%20JUMEAUX!5e0!3m2!1sfr!2ssn!4v1774370524992!5m2!1sfr!2ssn"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="KHOUT BI - Keur Massar, Dakar, Sénégal">
+      </iframe>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT SECTION
+     ============================================================ -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+
+    <div class="reveal">
+      <p class="section-label">Nous écrire</p>
+      <div class="red-line"></div>
+      <h2 class="section-title">Contact<br><span style="color:var(--rouge)">Direct</span></h2>
+      <p class="section-desc" style="margin-bottom:30px;">Une question sur le programme ? Tu veux rejoindre la team ? On te répond dans les 24h.</p>
+
+      <div style="display:flex; flex-direction:column; gap:20px; margin-top:10px;">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(217,37,37,0.1);border:1px solid rgba(217,37,37,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="fas fa-envelope" style="color:var(--rouge);font-size:14px;"></i>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:3px;">Email</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.7);">contact@khoutbi.com</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(217,37,37,0.1);border:1px solid rgba(217,37,37,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="fab fa-instagram" style="color:var(--rouge);font-size:14px;"></i>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:3px;">Instagram</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.7);">@khoutbi_official</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="width:40px;height:40px;background:rgba(217,37,37,0.1);border:1px solid rgba(217,37,37,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <i class="fab fa-snapchat" style="color:var(--rouge);font-size:14px;"></i>
+          </div>
+          <div>
+            <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:3px;">Snapchat</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.7);">@khoutbi</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="reveal reveal-delay-2">
+      <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="nom">Nom complet</label>
+          <input type="text" id="nom" name="nom" placeholder="Votre nom..." required>
+        </div>
+        <div class="form-group">
+          <label for="email">Adresse email</label>
+          <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="sujet">Sujet</label>
+          <input type="text" id="sujet" name="sujet" placeholder="Programme, Rejoindre la team...">
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Dis-nous tout..." required></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn-red" style="width:100%; justify-content:center;">
+            <i class="fas fa-paper-plane"></i>
+            Envoyer le Message
+          </button>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <i class="fas fa-check-circle"></i> Message envoyé ! On te répond très vite.
+        </div>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="footer-inner">
+
+    <!-- Brand -->
+    <div>
+      <div class="footer-brand-name">KHOUT<span>BI</span> 🕸️</div>
+      <p class="footer-desc">No excuses. Just work. La communauté fitness qui forge les guerriers de demain à Keur Massar, Dakar, Sénégal.</p>
+      <div class="footer-social">
+        <a href="#" target="_blank" title="Snapchat"><i class="fab fa-snapchat"></i></a>
+        <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div>
+      <div class="footer-nav-title">Navigation</div>
+      <ul class="footer-nav-links">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#apropos">À Propos</a></li>
+        <li><a href="#team">La Team</a></li>
+        <li><a href="#programme">Programme</a></li>
+        <li><a href="#galerie">Galerie</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Info -->
+    <div>
+      <div class="footer-nav-title">La Marque</div>
+      <ul class="footer-nav-links">
+        <li><a href="#apropos">Notre Histoire</a></li>
+        <li><a href="#programme">KHOUT BI Mass Builder</a></li>
+        <li><a href="#rejoindre">Rejoindre la Team</a></li>
+        <li><a href="#localisation">Localisation</a></li>
+        <li><a href="#contact">Nous Écrire</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <p class="footer-copy">© <span>KHOUT BI</span> 2026 — Tous droits réservés · Dakar, Sénégal</p>
+    <p class="footer-slogan">NO EXCUSES. JUST WORK.</p>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+     ============================================================ -->
+<script>
+/* --- Navbar scroll effect --- */
+window.addEventListener('scroll', function() {
+  var navbar = document.getElementById('navbar');
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+
+/* --- Mobile menu --- */
+function toggleMenu() {
+  var menu = document.getElementById('navMobile');
+  menu.classList.toggle('open');
+}
+
+function closeMenu() {
+  var menu = document.getElementById('navMobile');
+  menu.classList.remove('open');
+}
+
+/* --- Scroll reveal animation --- */
+function revealOnScroll() {
+  var reveals = document.querySelectorAll('.reveal');
+  reveals.forEach(function(el) {
+    var rect = el.getBoundingClientRect();
+    var windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.top <= windowHeight - 80) {
+      el.classList.add('visible');
+    }
+  });
+}
+
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('load', revealOnScroll);
+
+/* --- Smooth anchor scroll --- */
+document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+  anchor.addEventListener('click', function(e) {
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      var offset = 70;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  });
+});
+
+/* --- Contact form handler --- */
+function handleSubmit(e) {
+  e.preventDefault();
+  var btn = e.target.querySelector('.btn-red');
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+  btn.style.opacity = '0.7';
+  setTimeout(function() {
+    btn.innerHTML = '<i class="fas fa-check"></i> Message Envoyé!';
+    document.getElementById('formSuccess').style.display = 'block';
+    e.target.reset();
+    setTimeout(function() {
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Envoyer le Message';
+      btn.style.opacity = '1';
+      document.getElementById('formSuccess').style.display = 'none';
+    }, 4000);
+  }, 1500);
+}
+
+/* --- Active nav link on scroll --- */
+var sections = document.querySelectorAll('section[id]');
+var navLinks = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', function() {
+  var scrollPos = window.scrollY + 100;
+  sections.forEach(function(section) {
+    var top = section.offsetTop;
+    var height = section.offsetHeight;
+    var id = section.getAttribute('id');
+    if (scrollPos >= top && scrollPos < top + height) {
+      navLinks.forEach(function(link) {
+        link.style.color = '';
+        if (link.getAttribute('href') === '#' + id) {
+          link.style.color = '#D92525';
+        }
+      });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
