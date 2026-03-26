@@ -2304,13 +2304,6 @@ window.addEventListener('scroll', function() {
     var top = section.offsetTop;
     var height = section.offsetHeight;
     var id = section.getAttribute('id');
-    
-window.addEventListener('scroll', function() {
-  var scrollPos = window.scrollY + 100;
-  sections.forEach(function(section) {
-    var top = section.offsetTop;
-    var height = section.offsetHeight;
-    var id = section.getAttribute('id');
     if (scrollPos >= top && scrollPos < top + height) {
       navLinks.forEach(function(link) {
         link.classList.remove('active');
