@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KHOUT BI — Hors ligne</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #000;
+    color: #fff;
+    font-family: 'Barlow', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cg stroke='%23ffffff' stroke-width='0.8' fill='none' opacity='0.04'%3E%3Ccircle cx='200' cy='200' r='20'/%3E%3Ccircle cx='200' cy='200' r='50'/%3E%3Ccircle cx='200' cy='200' r='90'/%3E%3Ccircle cx='200' cy='200' r='140'/%3E%3Ccircle cx='200' cy='200' r='195'/%3E%3Cline x1='200' y1='5' x2='200' y2='395'/%3E%3Cline x1='5' y1='200' x2='395' y2='200'/%3E%3Cline x1='60' y1='60' x2='340' y2='340'/%3E%3Cline x1='340' y1='60' x2='60' y2='340'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 400px 400px;
+  }
+  .web-icon {
+    width: 100px; height: 100px;
+    margin-bottom: 32px;
+    opacity: 0.9;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px #D92525); }
+    50% { transform: scale(1.05); filter: drop-shadow(0 0 25px #D92525); }
+  }
+  h1 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 56px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+  h1 span { color: #D92525; }
+  .subtitle {
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 40px;
+  }
+  .message {
+    font-size: 16px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.7;
+    max-width: 320px;
+    margin-bottom: 40px;
+  }
+  .retry-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #D92525;
+    color: #fff;
+    border: none;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .retry-btn:hover { background: #ff1a1a; transform: translateY(-2px); }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <svg class="web-icon" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#D92525" stroke-width="1.5" fill="none" filter="url(#glow)">
+      <defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <circle cx="100" cy="100" r="10"/>
+      <circle cx="100" cy="100" r="25"/>
+      <circle cx="100" cy="100" r="45"/>
+      <circle cx="100" cy="100" r="70"/>
+      <circle cx="100" cy="100" r="97"/>
+      <line x1="100" y1="3" x2="100" y2="197"/>
+      <line x1="3" y1="100" x2="197" y2="100"/>
+      <line x1="30" y1="30" x2="170" y2="170"/>
+      <line x1="170" y1="30" x2="30" y2="170"/>
+    </g>
+  </svg>
+  <h1>KHOUT <span>BI</span></h1>
+  <p class="subtitle">No Excuses. Just Work.</p>
+  <p class="message">Tu n'as pas de connexion internet pour le moment. Réessaie dès que tu es connecté.</p>
+  <button class="retry-btn" onclick="window.location.reload()">
+    ↺ Réessayer
+  </button>
+</body>
+</html>

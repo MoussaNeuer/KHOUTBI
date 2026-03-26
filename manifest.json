@@ -1,0 +1,50 @@
+{
+  "name": "KHOUT BI",
+  "short_name": "KHOUT BI",
+  "description": "No Excuses. Just Work. — La team de jeunes motivés à Keur Massar, Dakar.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#D92525",
+  "lang": "fr",
+  "categories": ["sports", "fitness", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Rejoindre la Team",
+      "short_name": "Rejoindre",
+      "description": "Rejoins KHOUT BI sur WhatsApp",
+      "url": "/#rejoindre",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Programme",
+      "short_name": "Programme",
+      "description": "Voir le programme d'entraînement",
+      "url": "/#programme",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
